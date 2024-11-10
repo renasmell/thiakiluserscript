@@ -17,12 +17,10 @@
         return setTimeout(() => doOnLoad(element, fn, timeout), timeout);
     }
 
-    doOnLoad(".badge.badge-info", () => {
-
+oOnLoad('table.table-striped.table-bordered.table-hover', () => {
         if (document.querySelector('.badge.badge-info').innerHTML === "1.8.9") return;
         document.querySelector('.dropdown-toggle').click()
         Array.from(document.querySelectorAll('.list-group-item.list-group-item-action')).filter(e => e.innerHTML == "22")[0].click()
         doOnLoad('table.table-striped.table-bordered.table-hover', () => document.querySelector(".nav-link").click())
-
     })
 })();
