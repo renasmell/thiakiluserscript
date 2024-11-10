@@ -11,16 +11,29 @@
 (function() {
     'use strict';
 
-    function doOnLoad(element, fn, timeout = 50) {
-        if (document.querySelector(element)) return fn();
+        function doOnSatisfy(conditionFn, fn, timeout = 50) {
+        if (conditionFn()) return fn();
 
-        return setTimeout(() => doOnLoad(element, fn, timeout), timeout);
+        return setTimeout(() => doOnSatisfy(conditionFn, fn, timeout), timeout);
     }
-
-oOnLoad('table.table-striped.table-bordered.table-hover', () => {
+    function setToVersion() {
+        console.log('pluh')
         if (document.querySelector('.badge.badge-info').innerHTML === "1.8.9") return;
         document.querySelector('.dropdown-toggle').click()
         Array.from(document.querySelectorAll('.list-group-item.list-group-item-action')).filter(e => e.innerHTML == "22")[0].click()
-        doOnLoad('table.table-striped.table-bordered.table-hover', () => document.querySelector(".nav-link").click())
-    })
+    }
+    let url = window.location.href;
+    if (url === "https://mcp.thiakil.com/#/search") {
+        doOnSatisfy(() => document.getElementById("name-search"), setToVersion);
+    } else if (url === "https://mcp.thiakil.com/#/classes") {
+        doOnSatisfy(() => (document.querySelector('table.table-striped.table-bordered.table-hover')), () => {
+            setToVersion();
+            document.querySelector(".nav-link").click();
+        });
+    } else if (url === "https://mcp.thiakil.com/#/compare") {
+        doOnSatisfy(() => (document.querySelector('.fade.alert.alert-info.show')), () => {
+            setToVersion();
+            document.querySelector(".nav-link").click();
+        });
+    }
 })();
